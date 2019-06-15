@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once(__DIR__ . '/config.php');
 require_once(__DIR__ . '/functions.php');
 require_once(__DIR__ . '/Todo.php');
@@ -7,9 +9,9 @@ require_once(__DIR__ . '/Todo.php');
 $todoApp = new \MyApp\Todo();
 $todos = $todoApp->getAll();
 
-var_dump($todos);
+// var_dump($todos);
+// exit;
 
-exit;
 ?>
 
 <!DOCTYPE html>
@@ -22,21 +24,28 @@ exit;
 <body>
     <div id="container">
         <h1>Todos</h1>
-        <form action="">
-            <input type="text" id="new_todo" placeholder="What needss to be done?">
+        <form action="" id="new_todo_form">
+            <input type="text" id="new_todo" placeholder="What needs to be done?">
         </form>
-        <ul>
-            <li>
-                <input type="checkbox">
-                <span>Do sommething</span>
+        <ul id="todos">
+        <?php foreach($todos as $todo) : ?>
+            <li id="todo_<?= h($todo->id); ?>" data-id="<?= h($todo->id); ?>">
+            
+                <input type="checkbox" class="update_todo" <?php if ($todo->state === '1') {echo 'checked'; } ?>>
+                <span class="todo_title <?php if ($todo->state === '1') { echo 'done'; } ?>"><?= h($todo->title); ?></span>
                 <div class="delete_todo">x</div>
             </li>
-            <li>
-                <input type="checkbox" checked>
-                <span class="done">Do sommething</span>
+        <?php endforeach; ?>
+            <li id="todo_template" data-id="">
+                <input type="checkbox" class="update_todo">
+                <span class="todo_title"></span>
                 <div class="delete_todo">x</div>
             </li>
         </ul>
     </div>
+    <input type="hidden" id="token" value="<?= h($_SESSION['token']); ?>">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="todo.js"></script>
 </body>
 </html>
