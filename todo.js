@@ -1,56 +1,66 @@
 $(function () {
     'use strict';
 
-    $('#new_todo').focus();
+    $('#new_todo').val('').focus();
 
 
-    // update
-    $('#todos').on('click', '.update_todo', function () {
-        var id = $(this).parents('li').data('id');
+    $(document).on('click', '.delete_btn', function () {
+        $(this).toggleClass('active');
+        $(this).next('.delete_confirm').toggleClass('active');
+    });
+
+
+    $('#todos').on('click', '.delete_confirm', function () {
+        let id = $(this).parents('li').data('id');
+
         $.post('_ajax.php', {
             id: id,
-            mode: 'update',
+            mode: 'delete',
             token: $('#token').val()
         }, function (res) {
-            if (res.state === '1') {
-                $('#todo_' + id).find('.todo_title').addClass('done');
-            } else {
-                $('#todo_' + id).find('.todo_title').removeClass('done');
-            }
-        })
+            $('#todo_' + id).hide(600).animate(
+                { marginLeft: "500px" },
+                {
+                    duration: 400,
+                    queue: false
+                }
+            );
+            setTimeout(function () {
+                $('#todo_' + id).remove();
+            }, 600);
+        });
     });
+    'use strict';
 
-    // delete
-    $('#todos').on('click', '.delete_todo', function () {
-        var id = $(this).parents('li').data('id');
-
-        if (confirm('are you sure?')) {
-            $.post('_ajax.php', {
-                id: id,
-                mode: 'delete',
-                token: $('#token').val()
-            }, function () {
-                $('#todo_' + id).fadeOut(800);
-            });
-        }
-    });
-    // created
     $('#new_todo_form').on('submit', function () {
-        var title = $('#new_todo').val();
+        let title = $("#new_todo").val();
 
         $.post('_ajax.php', {
             title: title,
             mode: 'create',
             token: $('#token').val()
         }, function (res) {
-            var $li = $('#todo_template').clone();
+            let $li = $('#todo_template').clone();
             $li
                 .attr('id', 'todo_' + res.id)
                 .data('id', res.id)
-                .find('.todo_title').text(title);
-            $('#todos').prepend($li.fadeIn());
+                .find('.card-text').text(title);
+            $($li).prependTo('#todos').hide().slideDown();
             $('#new_todo').val('').focus();
+
+            let todoList = $("li.todo:not('#todo_template')");
+            let count = todoList.length;
+            console.log(count);
+
+            if (count > 5) {
+                $("li.todo:not('#todo_template')").filter(":last").slideUp().queue(function () {
+                    $(this).remove();
+                });
+            }
         });
         return false;
     });
+
+
+
 });

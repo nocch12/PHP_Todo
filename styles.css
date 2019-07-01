@@ -1,47 +1,148 @@
+html, body, h1, h2, h3, h4, ul, ol, dl, li, dt, dd, p, div, span, img, a, table, tr, th, td, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: normal;
+  font-size: 100%;
+  vertical-align:baseline;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+article, header, footer, aside, figure, figcaption, nav, section { 
+  display:block;
+}
 body {
-    font-family: arial, sans-serif;
+  line-height: 1;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+ol, ul {
+  list-style: none;
+  list-style-type: none;
 }
 
-#container {
-    width: 500px;
-    margin: 15px auto;
+a:hover {
+  text-decoration: none;
+}
+
+.btn:focus,.btn:active:focus,.btn.active:focus,
+.btn.focus,.btn:active.focus,.btn.active.focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#title {
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
 
 h1 {
-    font-size: 18px;
-    text-align: center;
+    font-size: 36px;
+}
+
+#new_todo_form {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.new_todo_wrap {
+    padding-right: 10px;
+}
+
+#todos {
+  width: 300px;
+    margin: 30px auto 0;
+}
+
+li {
+    width: 100%;
     margin-bottom: 10px;
+    padding: 10px;
+    text-align: left;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-ul > li {
-    padding-bottom: 6px;
-}
-
-#new_todo {
-    padding: 8px;
-    border-radius: 3px;
-    width: 490px;
-    margin: 0 auto 15px;
-    font-size: 16px;
-}
-
-.delete_todo {
-    float: right;
-    display: inline-block;
-    color: #ccc;
-    cursor: pointer;
-}
-
-.done {
-    text-decoration: line-through;
+.delete_btn {
+    text-align: center;
+    width: 0;
+    font-size: 12px;
+    line-height: 0;
+    padding: 10px 10px;
 }
 
 #todo_template {
-    display: none;
+  display: none;
+}
+
+.delete_todo_wrap {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.delete_btn {
+  position: relative;
+  border: 1px solid rgba(255, 0, 0, 0.8);
+  transition: 0.4s;
+}
+.delete_btn:active {
+  outline: none;
+}
+.delete_btn.active {
+  border: 1px solid rgba(255, 0, 0, 0.0);
+}
+.delete_btn span {
+  position: absolute;
+  width: 12px;
+  height: 1px;
+  background: red;
+  transition: 0.4s;
+}
+
+.delete_line1 {
+  transform:translateX(-50%) rotate(45deg);
+}
+.delete_line2 {
+  transform:translate(-50%) rotate(-45deg);
+}
+.delete_btn.active > .delete_line1 {
+  transform: translateX(-50%) rotate(0);
+}
+.delete_btn.active > .delete_line2 {
+  transform: translateX(-50%) rotate(-180deg);
+}
+
+.delete_confirm {
+  font-size: 12px;
+  padding: 0;
+  padding-left: 3px;
+  color: red;
+  text-align: left;
+  width: 0%;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: 0.6s;
+}
+.delete_confirm:hover {
+  color: red;
+  text-decoration: underline;
+}
+.delete_confirm.active {
+  width: 100%;
+}
+
+.pagenation {
+  padding-top: 20px;
+}
+
+.pagenation a {
+  font-size: 18px;
+  margin: 0 5px;
+}
+
+.current_page {
+  font-weight: bold;
+  border-bottom: 1px solid #000;
 }
