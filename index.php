@@ -8,9 +8,11 @@ require_once(__DIR__ . '/Pagenation.php');
 $todoApp = new \MyApp\Todo();
 $pagenation = new \MyApp\Pagenation();
 
-
+// ページごとに表示する5件を取得
 $todos = $pagenation->getTodos();
+// 現在のページ番号を取得
 $currentPage = $pagenation->getCurrentPage();
+// 全部で何ページあるかを取得
 $maxPage = (int)$pagenation->getPages();
 
 
